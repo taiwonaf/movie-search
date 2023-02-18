@@ -1,25 +1,20 @@
 import { Fragment, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import axios from "axios";
 
-const people = [
-  { name: "Genre" },
-  { name: "Action" },
-  { name: "Adventure" },
-  { name: "Animation" },
-  { name: "Comedy" },
-  { name: "Crime" },
-  { name: "Documentary" },
-  { name: "Drama" },
-  { name: "Family" },
-  { name: "Fantasy" },
-];
+const initialGenre = [{ id: 0, name: "Genre" }];
 
-const Genre = ({ setQuery, genres }) => {
-  const [selected, setSelected] = useState(people[0]);
+const Genre = ({ setQuery }) => {
+  const [selected, setSelected] = useState(initialGenre[0]);
+  const [genres, setGenres] = useState([]);
   useEffect(() => {
-    setQuery((prev) => ({ ...prev, genre: selected }));
-    console.log(genres);
+    axios.get(process.env.REACT_APP_GENRE_URL).then((res) => {
+      setGenres(res.data.genres);
+    });
+  }, []);
+  useEffect(() => {
+    setQuery((prev) => ({ ...prev, genre: selected.id }));
   }, [selected]);
   return (
     <div className="md:max-w-[200px] w-full">
@@ -42,7 +37,7 @@ const Genre = ({ setQuery, genres }) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0">
             <Listbox.Options className="absolute mt-[10px] w-full overflow-scroll rounded-md bg-white p-1 text-base shadow-lg ring-1 ring-black z-[99999] ring-opacity-5 focus:outline-none sm:text-sm">
-              {people.map((person, personIdx) => (
+              {genres.map((person, personIdx) => (
                 <Listbox.Option
                   key={personIdx}
                   className={({ active }) =>

@@ -29,6 +29,9 @@ const Home = () => {
   }, []);
 
   // fetch data base of title genre and date
+  useEffect(() => {
+    console.log(query);
+  }, [query]);
 
   const fetchSearch = () => {
     try {
@@ -39,19 +42,17 @@ const Home = () => {
         .then((res) => {
           const data = res.data.results;
           const selectedGenre = query.genre;
-          // if (selectedGenre) {
-          //   data.forEach((item) => {
-          //     const itemGenres = item.genre_ids;
-          //     itemGenres.forEach((itemGenre) => {
-          //       if (itemGenre === selectedGenre) {
-          //         setSearchMovies((prev) => [...prev, item]);
-          //       }
-          //     });
-          //   });
-          // }
-          setSearchMovies(res.data.results);
-          console.log("Searched moveis", res.data.results);
-          setSearchResult(true);
+          if (selectedGenre > 0) {
+            // setSearchMovies([]);
+            const genreResult = data.filter((obj) => {
+              return obj.genre_ids.includes(selectedGenre);
+            });
+            setSearchMovies(genreResult);
+            setSearchResult(true);
+          } else {
+            setSearchMovies(res.data.results);
+            setSearchResult(true);
+          }
         });
     } catch (error) {
       setSearchResult(false);
@@ -78,7 +79,11 @@ const Home = () => {
           </div>
         </main>
       ) : (
-        <Search data={searchMovies} setSearchResult={setSearchResult} />
+        <Search
+          query={query}
+          data={searchMovies}
+          setSearchResult={setSearchResult}
+        />
       )}
     </React.Fragment>
   );

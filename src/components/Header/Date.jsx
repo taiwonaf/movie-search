@@ -2,7 +2,7 @@ import { Fragment, useState, useEffect } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
-const people = [
+const years = [
   { name: "Date" },
   { name: "2023" },
   { name: "2022" },
@@ -14,9 +14,9 @@ const people = [
 ];
 
 const Date = ({ setQuery }) => {
-  const [selected, setSelected] = useState(people[0]);
+  const [selected, setSelected] = useState(years[0]);
   useEffect(() => {
-    setQuery((prev) => ({ ...prev, genre: selected }));
+    setQuery((prev) => ({ ...prev, year: selected.name }));
   }, [selected]);
   return (
     <div className="md:max-w-[200px] w-full">
@@ -39,7 +39,7 @@ const Date = ({ setQuery }) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0">
             <Listbox.Options className="absolute mt-[10px] w-full overflow-auto rounded-md bg-white p-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-[99999]">
-              {people.map((person, personIdx) => (
+              {years.map((item, personIdx) => (
                 <Listbox.Option
                   key={personIdx}
                   className={({ active }) =>
@@ -47,14 +47,14 @@ const Date = ({ setQuery }) => {
                       active ? "bg-[#121212] text-white-900" : "text-[#121212]"
                     }`
                   }
-                  value={person}>
+                  value={item}>
                   {({ selected }) => (
                     <>
                       <span
                         className={`block truncate ${
                           selected ? "font-medium" : "font-normal"
                         }`}>
-                        {person.name}
+                        {item.name}
                       </span>
                       {selected ? (
                         <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
