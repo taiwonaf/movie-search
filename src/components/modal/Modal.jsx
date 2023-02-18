@@ -29,17 +29,17 @@ const Modal = ({ modalData, close }) => {
     };
   });
   return (
-    <div className="m-[5px] mt-[50px] md:mt-0 fixed h-screen flex justify-center items-center inset-0 z-[99999999999] flex-col ">
+    <div className="md:mt-0 fixed h-screen flex justify-center items-center inset-0 z-[99999999999] flex-col ">
       <div
         onClick={() => close(false)}
         className="absolute inset-0 bg-black bg-opacity-70"></div>
-      <div className="flex relative z-[9999999999]  text-white justify-end w-full max-w-[600px] mb-[20px]">
+      <div className="m-[5px] mt-[50px]  flex relative z-[9999999999]  text-white justify-end w-full max-w-[600px] mb-[20px]">
         <XCircleIcon
           onClick={() => close(false)}
           className="h-10 w-10 text-white"
         />
       </div>
-      <div className="bg-white p-[10px] rounded-[5px] z-[99] max-w-[600px] w-full min-h-[700x]">
+      <div className="m-[5px] bg-white p-[10px] rounded-[5px] z-[99] max-w-[600px] w-full min-h-[700x]">
         <div className="w-full h-[200px] rounded-[5px] overflow-hidden mb-[10px]">
           {backdrop_path ? (
             <img
