@@ -24,11 +24,17 @@ const Movie = ({
     <div className="rounded-[5px] transition-all duration-[1] w-[300px] h-[500px] p-[5px] pb-[10px] hover:shadow-lg text-black border-gray-200 border-[2px]">
       <div className="flex flex-col gap-[5px] justify-between h-full">
         <div className="w-full h-[200px] rounded-[5px] overflow-hidden mb-[10px]">
-          <img
-            src={process.env.REACT_APP_API_IMG + backdrop_path}
-            className="object-cover w-full h-full"
-            alt=""
-          />
+          {backdrop_path ? (
+            <img
+              src={process.env.REACT_APP_API_IMG + backdrop_path}
+              className="object-cover w-full h-full"
+              alt=""
+            />
+          ) : (
+            <div className="w-full h-full text-black flex justify-center items-center font-[700] bg-gray-300">
+              Image not found
+            </div>
+          )}
         </div>
 
         <h2 className="">
