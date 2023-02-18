@@ -3,9 +3,13 @@ import { HeroImg } from "./../assets";
 import Genre from "./Genre";
 import Date from "./Date";
 
-const index = () => {
+const index = ({ query, setQuery, fetchSearch, genres }) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetchSearch();
+  };
   return (
-    <div className="h-screen relative w-full overflow-hidden text-white px-[17px] flex justify-center items-center">
+    <div className="h-screen relative w-full text-white px-[17px] flex justify-center items-center">
       <div className="bg-black bg-opacity-30 inset-0 absolute z-[10]"></div>
       <img
         src={HeroImg}
@@ -21,19 +25,30 @@ const index = () => {
             Explore the world of movies with ease.
           </h4>
         </div>
-        <form className="max-w-[700px] w-full bg-white flex flex-col md:flex-row  justify-between items-center gap-[5px] p-[5px] rounded-[5px]">
-          {/* Genre */}
-          <Genre />
-          {/* Input file */}
-          <div className="w-full flex-1">
-            <input
-              type="text"
-              placeholder="Search here"
-              className="pl-[8px] w-full outline-none text-[#121212]"
-            />
+        <form
+          onSubmit={handleSubmit}
+          className="w-full flex justify-center items-center flex-col gap-[20px]">
+          <div className="max-w-[700px] w-full bg-white flex flex-col md:flex-row  justify-between items-center gap-[5px] p-[5px] rounded-[5px]">
+            <Genre setQuery={setQuery} genres={genres} />
+            <div className="w-full flex-1">
+              <input
+                value={query.title}
+                name="search"
+                onChange={(e) =>
+                  setQuery((prev) => ({ ...prev, title: e.target.value }))
+                }
+                type="text"
+                placeholder="Search here"
+                className="pl-[8px] w-full outline-none text-[#121212]"
+              />
+            </div>
+            <Date setQuery={setQuery} />
           </div>
-          <Date />
-          {/* release date */}
+          <button
+            type="submit"
+            className="bg-white max-w-[200px] hover:border-[2px] hover:border-white hover:bg-black hover:p-[10px] hover:text-white text-black inline-block p-[12px] rounded-[5px] w-full">
+            Search
+          </button>
         </form>
       </div>
     </div>

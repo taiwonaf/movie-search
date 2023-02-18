@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
@@ -15,8 +15,12 @@ const people = [
   { name: "Fantasy" },
 ];
 
-const Genre = () => {
+const Genre = ({ setQuery, genres }) => {
   const [selected, setSelected] = useState(people[0]);
+  useEffect(() => {
+    setQuery((prev) => ({ ...prev, genre: selected }));
+    console.log(genres);
+  }, [selected]);
   return (
     <div className="md:max-w-[200px] w-full">
       <Listbox value={selected} onChange={setSelected}>
@@ -37,7 +41,7 @@ const Genre = () => {
             leave="transition ease-in duration-100"
             leaveFrom="opacity-100"
             leaveTo="opacity-0">
-            <Listbox.Options className="absolute mt-[10px] w-full overflow-auto rounded-md bg-white p-1 text-base shadow-lg ring-1 ring-black z-[99999] ring-opacity-5 focus:outline-none sm:text-sm">
+            <Listbox.Options className="absolute mt-[10px] w-full overflow-scroll rounded-md bg-white p-1 text-base shadow-lg ring-1 ring-black z-[99999] ring-opacity-5 focus:outline-none sm:text-sm">
               {people.map((person, personIdx) => (
                 <Listbox.Option
                   key={personIdx}

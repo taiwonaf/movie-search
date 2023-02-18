@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
@@ -13,8 +13,11 @@ const people = [
   { name: "2017" },
 ];
 
-const Date = () => {
+const Date = ({ setQuery }) => {
   const [selected, setSelected] = useState(people[0]);
+  useEffect(() => {
+    setQuery((prev) => ({ ...prev, genre: selected }));
+  }, [selected]);
   return (
     <div className="md:max-w-[200px] w-full">
       <Listbox value={selected} onChange={setSelected}>
