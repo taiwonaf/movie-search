@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Header, Movies, Search } from "../components";
+import { Header, Movies, Search, Modal } from "../components";
 import index from "../components/Navbar";
 
 const API_URL = `https://api.themoviedb.org/3/movie/popular?api_key=3e2caaefaccae1457af256fc74f148c4`;
@@ -11,6 +11,11 @@ const Home = () => {
   const [query, setQuery] = useState({ title: "", year: "", genre: "" });
   const [searchResult, setSearchResult] = useState(false);
   const [genres, setGenres] = useState([]);
+  const [modalData, setModalData] = useState({});
+  const [openModal, setOpenModal] = useState(false);
+  useEffect(() => {
+    console.log(openModal);
+  });
   // fetch genres
   useEffect(() => {
     axios.get(process.env.REACT_APP_GENRE_URL).then((res) => {
@@ -61,6 +66,7 @@ const Home = () => {
   };
   return (
     <React.Fragment>
+      {openModal && <Modal close={setOpenModal} modalData={modalData} />}
       {!searchResult ? (
         <main>
           <div>
@@ -75,7 +81,11 @@ const Home = () => {
             <h2 className="px-[17px] font-[700] text-center text-[21px] md:text-[38px] mb-[20px]">
               Popular Movies
             </h2>
-            <Movies data={movies} />
+            <Movies
+              setOpenModal={setOpenModal}
+              setModalData={setModalData}
+              data={movies}
+            />
           </div>
         </main>
       ) : (
@@ -83,6 +93,8 @@ const Home = () => {
           query={query}
           data={searchMovies}
           setSearchResult={setSearchResult}
+          setOpenModal={setOpenModal}
+          setModalData={setModalData}
         />
       )}
     </React.Fragment>

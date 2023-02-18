@@ -1,7 +1,8 @@
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { XCircleIcon } from "@heroicons/react/24/solid";
 
-const Movie = ({ item, setModalData, setOpenModal }) => {
+const Modal = ({ modalData, close }) => {
   const {
     title,
     vote_average,
@@ -9,7 +10,7 @@ const Movie = ({ item, setModalData, setOpenModal }) => {
     genre_ids,
     release_date,
     overview,
-  } = item;
+  } = modalData;
   const [movieGenre, setMovieGenre] = useState([]);
   useEffect(() => {
     axios.get(process.env.REACT_APP_GENRE_URL).then((res) => {
@@ -21,9 +22,24 @@ const Movie = ({ item, setModalData, setOpenModal }) => {
       setMovieGenre(genreNames);
     });
   }, [genre_ids]);
+  useEffect(() => {
+    window.screenY = "hidden";
+    return () => {
+      window.screenX = "scroll";
+    };
+  });
   return (
-    <div className="rounded-[5px] transition-all duration-[1] w-[300px] h-[500px] p-[5px] pb-[10px] hover:shadow-lg text-black border-gray-200 border-[2px]">
-      <div className="flex flex-col gap-[5px] justify-between h-full">
+    <div className="m-[5px] mt-[50px] md:mt-0 fixed h-screen flex justify-center items-center inset-0 z-[99999999999] flex-col ">
+      <div
+        onClick={() => close(false)}
+        className="absolute inset-0 bg-black bg-opacity-70"></div>
+      <div className="flex relative z-[9999999999]  text-white justify-end w-full max-w-[600px] mb-[20px]">
+        <XCircleIcon
+          onClick={() => close(false)}
+          className="h-10 w-10 text-white"
+        />
+      </div>
+      <div className="bg-white p-[10px] rounded-[5px] z-[99] max-w-[600px] w-full min-h-[700x]">
         <div className="w-full h-[200px] rounded-[5px] overflow-hidden mb-[10px]">
           {backdrop_path ? (
             <img
@@ -37,7 +53,6 @@ const Movie = ({ item, setModalData, setOpenModal }) => {
             </div>
           )}
         </div>
-
         <h2 className="">
           <span className="font-[700]">Title:</span>
           {title}
@@ -55,21 +70,10 @@ const Movie = ({ item, setModalData, setOpenModal }) => {
           <span className="font-[700] text-[14px]">Genre:</span>{" "}
           {movieGenre.toString()}
         </span>
-        <p className="text-justify text-[14px]">
-          {overview.substring(0, 100) + "..."}
-        </p>
-
-        <button
-          onClick={() => {
-            setModalData(item);
-            setOpenModal(true);
-          }}
-          className="border-[2px] p-[5px] bg-black text-white hover:bg-transparent hover:text-black">
-          Learn more
-        </button>
+        <p className="text-justify text-[14px]">{overview}</p>
       </div>
     </div>
   );
 };
 
-export default Movie;
+export default Modal;

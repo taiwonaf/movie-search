@@ -2,7 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Movies } from "..";
 
-const index = ({ data, setSearchResult, query }) => {
+const index = ({
+  data,
+  setSearchResult,
+  query,
+  setModalData,
+  setOpenModal,
+}) => {
   const values = Object.values(query);
   const searchFor = values.join(",");
   return (
@@ -20,7 +26,11 @@ const index = ({ data, setSearchResult, query }) => {
             Go Home
           </Link>
         </div>
-        <Movies data={data} />
+        <Movies
+          setOpenModal={setOpenModal}
+          setModalData={setModalData}
+          data={data}
+        />
       </div>
     </main>
   );

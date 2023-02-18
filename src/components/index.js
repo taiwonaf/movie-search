@@ -11,3 +11,5 @@ export { default as Movies } from "./movies";
 
 // Search content
 export { default as Search } from "./search";
+
+export { default as Modal } from "./modal/Modal";
